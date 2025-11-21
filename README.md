@@ -19,6 +19,12 @@ Design and implement an SQL-driven analysis of the Netflix catalogue to answer b
 The project objective is: Using Tb_netflix as the canonical table, clean and transform the dataset, then produce actionable insights that describe the catalogue composition, content safety signals, regional production strength (with emphasis on India), creative
 contributors (directors/actors), and temporal trends in releases — enabling product, programming, and marketing teams to prioritise content acquisition, promotion, and regional investment.
 
+# Dataset
+
+The data for this project is sourced from the Kaggle dataset:
+
+• Dataset Link: https://www.kaggle.com/datasets/shivamb/netflix-shows?resource=download
+
 # Project Structure
 
 ### 1) Database Setup
