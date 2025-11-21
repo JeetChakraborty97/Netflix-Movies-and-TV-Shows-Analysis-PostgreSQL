@@ -2,7 +2,7 @@
 
 ![Logo 2](https://github.com/user-attachments/assets/6b1594f5-ebe5-436e-a378-3a7bf2040b51)
 
-# Backgropund
+# Background
 
 I worked with the netflix_titles.csv dataset (~8,809 content records plus header) containing Netflix catalogue metadata: show_id, type (Movie/TV Show), title, director, cast(s), country, date_added, release_year, rating, duration, listed_in (genres), and description.
 
@@ -17,7 +17,7 @@ Data Analyst (SQL-focused) — responsible for end-to-end exploratory data analy
 Design and implement an SQL-driven analysis of the Netflix catalogue to answer business questions that inform content strategy and regional programming decisions.
 
 The project objective is: Using Tb_netflix as the canonical table, clean and transform the dataset, then produce actionable insights that describe the catalogue composition, content safety signals, regional production strength (with emphasis on India), creative
-contributors (directors/actors), and temporal trends in releases — enabling product, programming, and marketing teams to prioritize content acquisition, promotion, and regional investment.
+contributors (directors/actors), and temporal trends in releases — enabling product, programming, and marketing teams to prioritise content acquisition, promotion, and regional investment.
 
 # Project Structure
 
@@ -25,7 +25,7 @@ contributors (directors/actors), and temporal trends in releases — enabling pr
 
 Database Creation: The project starts by creating a database named SQL_Project_2_Netflix_Data_Analysis.
 
-Table Creation: A table named Tb_netflix is created to store the netflix.csv data.
+Table Creation: A table named Tb_netflix is created to store the Netflix data from the netflix.csv file.
 
 ```SQL
 -- Creating the tables
@@ -46,4 +46,108 @@ CREATE TABLE Tb_netflix (
 );
 ```
 
-### 2)
+### 2) Data Cleaning & Exploration
+
+Netflix data from the netflix.csv file was imported to Tb_netflix using the 'Import/Export Data...' option in PostgreSQL.
+
+The data was checked and some key values were found.
+
+```SQL
+-- To Check
+SELECT * FROM Tb_netflix;
+
+-- Finding Some Key Values
+SELECT
+	COUNT(Show_Id) AS Total_Movies_and_Shows
+FROM Tb_netflix;
+
+SELECT
+	DISTINCT type AS Distinct_Types_of_Content
+FROM Tb_netflix;
+
+SELECT
+	DISTINCT rating AS Distinct_Types_of_Rating
+FROM Tb_netflix;
+```
+
+Some wrong values were seen in the 'rating' column and were removed.
+
+```SQL
+-- Finding the wrong value rows
+SELECT
+	*
+FROM Tb_netflix
+WHERE rating = '74 min'
+   OR rating = '66 min'
+   OR rating = '84 min';
+
+-- Removing the wrong value rows for ease.
+DELETE
+FROM Tb_netflix
+WHERE rating = '74 min'
+   OR rating = '66 min'
+   OR rating = '84 min';
+```
+Duplicate titles were checked, and none were found.
+
+```SQL
+-- Checking for Duplicate Titles
+SELECT
+	Title,
+	COUNT(*) AS Duplicate_Count
+FROM Tb_netflix
+GROUP BY Title
+HAVING COUNT(*) > 1
+ORDER BY Duplicate_Count DESC;
+
+-- No Duplicates Were Found
+```
+
+### 3) Data Analysis
+
+The following business questions were answered.
+
+1. Count the number of Movies vs TV Shows.
+
+```SQL
+SELECT
+	type AS Show_Types,
+	COUNT(Show_Id) AS Total_Count
+FROM Tb_netflix
+GROUP BY type
+ORDER BY Total_Count DESC;
+```
+
+2. Find the most common rating for movies and TV shows.
+
+```SQL
+SELECT
+    Show_Types,
+    rating
+FROM (
+    SELECT
+        type AS Show_Types,
+        rating,
+        COUNT(Show_Id) AS Total_Count,
+        RANK() OVER (PARTITION BY type ORDER BY COUNT(Show_Id) DESC) as Ranking
+    FROM Tb_netflix
+    GROUP BY type, rating
+) AS r1
+WHERE Ranking = 1;
+```
+
+3. List all movies released in the year 2020.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
