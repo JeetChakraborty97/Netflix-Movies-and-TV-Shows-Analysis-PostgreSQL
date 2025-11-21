@@ -29,6 +29,7 @@ Table Creation: A table named Tb_netflix is created to store the netflix.csv dat
 
 ```SQL
 -- Creating the tables
+
 CREATE TABLE Tb_netflix (
     Show_Id VARCHAR(10) PRIMARY KEY,
     Type VARCHAR(12),
