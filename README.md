@@ -26,7 +26,8 @@ contributors (directors/actors), and temporal trends in releases — enabling pr
 Database Creation: The project starts by creating a database named SQL_Project_2_Netflix_Data_Analysis.
 
 Table Creation: A table named Tb_netflix is created to store the netflix.csv data.
-```
+
+```SQL
 -- Creating the tables
 CREATE TABLE Tb_netflix (
     Show_Id VARCHAR(10) PRIMARY KEY,
